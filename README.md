@@ -1,7 +1,11 @@
 # watch-render.js
-Trigger "render" event when changed any html element's content or any property
+Trigger "render" event when any html element's content or any property are changed
 
 Like div content, size, color are changed dynamically or a hidden element becomes visible
+
+It works with css animations and transitions
+
+Event will be fire when child element change also
 
 ## Demo
 https://codepen.io/iroshan/pen/JqJdLY
