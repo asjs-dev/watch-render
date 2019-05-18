@@ -3,11 +3,12 @@ var watchRender = watchRender || (function() {
       style.innerText = ".watch-render, .watch-render *{transition: all 0.01s; animation: watch-resize 0;} @keyframes watch-resize{0%{opacity:1;}100%{opacity:1;}}";
   document.head.append(style);
   
-  return function(target) {
+  return function(target, timeout) {
     var _scope = {};
 
     var _isWatching = false;
     var _target     = target;
+    var _timeout    = timeout || 50;
 
     var _timeoutId;
 
@@ -36,7 +37,7 @@ var watchRender = watchRender || (function() {
 
     function throttle() {
       clearTimeout(_timeoutId);
-      _timeoutId = setTimeout(_target.dispatchEvent.bind(this, new Event("render")), 10);
+      _timeoutId = setTimeout(_target.dispatchEvent.bind(this, new Event("render")), _timeout);
     }
     
     function removeWatchRenderClass() {
