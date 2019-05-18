@@ -1,6 +1,6 @@
 var watchRender = watchRender || (function() {
   var style = document.createElement("style");
-      style.innerText = "@keyframes watch-resize{0%{opacity:1;}100%{opacity:1;}}";
+      style.innerText = ".watch-render, .watch-render *{transition: all 0.01s; animation: watch-resize 0;} @keyframes watch-resize{0%{opacity:1;}100%{opacity:1;}}";
   document.head.append(style);
   
   return function(target) {
@@ -17,8 +17,7 @@ var watchRender = watchRender || (function() {
 
       _scope.stopWatch();
 
-      _target.style.transition = "all 0.01s";
-      _target.style.animation  = "watch-resize 0";
+      _target.className += " watch-render";
 
       _target.addEventListener("DOMSubtreeModified", throttle);
       _target.addEventListener("transitionend",      throttle);
@@ -27,7 +26,9 @@ var watchRender = watchRender || (function() {
 
     _scope.stopWatch = function() {
       _isWatching = false;
-
+      
+      removeWatchRenderClass();
+      
       _target.removeEventListener("DOMSubtreeModified", throttle);
       _target.removeEventListener("transitionend",      throttle);
       _target.removeEventListener("animationend",       throttle);
@@ -35,9 +36,14 @@ var watchRender = watchRender || (function() {
 
     function throttle() {
       clearTimeout(_timeoutId);
-      _timeoutId = setTimeout(function() {
-        _target.dispatchEvent(new Event("render"));
-      }, 10);
+      _timeoutId = setTimeout(_target.dispatchEvent.bind(this, new Event("render")), 10);
+    }
+    
+    function removeWatchRenderClass() {
+      var classNames = _target.className.split(" ");
+      var index      = classNames.indexOf("watch-render");
+      classNames.splice(index, 1);
+      _target.className = classNames.join(" ");
     }
 
     _scope.startWatch();
