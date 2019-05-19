@@ -12,10 +12,10 @@ https://codepen.io/iroshan/pen/JqJdLY
 
 ## Example
 ```javascript
-var resizable = document.querySelector(selector);
-var renderWatcher = watchRender(resizable);
-resizable.addEventListener("render", function() {
-  console.log("rendered", resizable.offsetWidth);
+var target = document.querySelector(selector);
+var renderWatcher = watchRender(target);
+target.addEventListener("render", function() {
+  console.log("rendered", target.offsetWidth);
 });
 ```
 
